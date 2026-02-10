@@ -12,17 +12,28 @@ app.use((req, res, next) => {
 app.get("/gamepasses/:userId", async (req, res) => {
   try {
     const userId = req.params.userId;
+
     const response = await fetch(
-      `https://games.roblox.com/v1/users/${userId}/game-passes?limit=100`
+      `https://apis.roblox.com/game-passes/v1/users/${userId}/game-passes`
     );
+
+    if (!response.ok) {
+      return res.status(response.status).json({ error: "Roblox API error" });
+    }
+
     const data = await response.json();
     res.json(data);
+
   } catch (err) {
-    res.status(500).json({ error: "Failed to fetch gamepasses" });
+    res.status(500).json({ error: "Failed to fetch game passes" });
   }
 });
 
+
 // Run server
-app.listen(3000, () => {
-  console.log("Proxy running on port 3000");
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Proxy running on port ${PORT}`);
 });
+
