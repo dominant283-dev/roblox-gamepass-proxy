@@ -18,8 +18,9 @@ app.get("/gamepasses/:userId", async (req, res) => {
     );
 
     if (!response.ok) {
-      return res.status(response.status).json({ error: "Roblox API error" });
-    }
+  return res.status(response.status).json({ error: "Roblox API error" });
+}
+
 
     const data = await response.json();
     res.json(data);
